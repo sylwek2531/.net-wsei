@@ -8,6 +8,12 @@
     Add new company
 </h2>
 
+<div id="success-alert" class="alert alert-success" style="display: none">
+    Item added
+    successfully
+</div>
+
+
 @using (Html.BeginForm())
 {
     <div class="form-group">
@@ -19,10 +25,14 @@
         @Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
     </div>
     <div class="form-group">
-        @Html.CheckBoxFor(x => x.IsVisible,  new { @class = "form-check-input"})
+        @Html.CheckBoxFor(x => x.IsVisible, new { @class = "form-check-input" })
         @Html.LabelFor(x => x.IsVisible, "Visible?", new { @class = "form-check-label" })
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Add Company</button>
     </div>
+}
+
+@section Scripts{
+    <script src="~/js/ajaxAction.js"></script>
 }
