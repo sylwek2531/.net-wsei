@@ -26,10 +26,25 @@
             });
         const responseJson = await response.json();
 
-        if (responseJson.success) {
+        if (responseJson.length > 0) {
+            const listItemsWrapper = document.getElementById("list-items");
+
+            let list = "";
+            responseJson.forEach(function (el) {
+                list += `<li>`
+                Object.keys(el).forEach(function (key) {
+                    list += `${key} : ${el[key]} <br><br>`;
+                })
+                list += `</li>`
+
+            })
+            listItemsWrapper.innerHTML = list;
             // 3. un-hide the alertElement when the request has been successful
             // alertElement.style...
             alertElement.style.display = "block";
+            setTimeout(function () {
+                alertElement.style.display = "none";
+            }, 2000)
         } else {
             console.error("something wrong...");
         }

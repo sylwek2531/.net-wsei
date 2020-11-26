@@ -5,22 +5,36 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using implementsForm.Web.Models;
-
+using implementsForm.Web.Database;
+using implementsForm.Web.Entities;
 
 namespace implementsForm.Web.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class AjaxController : ControllerBase
     {
+        private readonly ExchangesDbContext _dbContext;
 
-        public AddNewItemResponse Post(ItemModel item)
+        public AjaxController(ExchangesDbContext dbContext)
         {
-            return new AddNewItemResponse { Description = item.Description,
+            _dbContext = dbContext;
+        }
+
+        public IQueryable<ItemEntity> Post(ItemModel item)
+        {
+            var entity = new ItemEntity {
                 Name = item.Name,
-                IsVisible = item.IsVisible,
-                success = true/**/
+                Description = item.Description,
+                IsVisible = item.IsVisible
             } ;
+
+            _dbContext.Items.Add(entity);
+            _dbContext.SaveChanges();
+
+
+            return _dbContext.Set<ItemEntity>();
           
         }
     }
